@@ -56,11 +56,11 @@ public class Player : ASpecialCharacter
     {
         if (!IsInvulable)
         {
-            Health -= damage;
+            Stats.Health -= damage;
 
-            gameController.SendMessage("UpdatePlayerUI", Health / MaxHealth);
+            gameController.SendMessage("UpdatePlayerUI", Stats.Health / Stats.MaxHealth);
 
-            if (Health <= 0)
+            if (Stats.Health <= 0)
             {
                 IsDead = true;
             }
@@ -91,7 +91,7 @@ public class Player : ASpecialCharacter
         Vector2 deltaForce = new Vector2(h, v);
 
         //TODO: Rather rigidbody.velocity?
-        rigidbody.position += deltaForce * Time.fixedDeltaTime * Speed;
+        rigidbody.position += deltaForce * Time.fixedDeltaTime * Stats.Speed;
     }
 
     protected override void FaceDirection()
@@ -128,7 +128,7 @@ public class Player : ASpecialCharacter
             if (Input.GetMouseButton(0) && Time.time > nextAttack)
             {
                 Debug.Log(Time.time);
-                nextAttack = Time.time + 1 / AttackSpeed;
+                nextAttack = Time.time + 1 / Stats.AttackSpeed;
 
                 //anim.SetBool("IsAttacking", true);
 
@@ -140,9 +140,9 @@ public class Player : ASpecialCharacter
 
         if (eqWeapon == "magic")
         {
-            if (Input.GetMouseButton(0) && bMayAttack && Time.time > nextAttack)
+            if (Input.GetMouseButton(0) && Time.time > nextAttack)
             {
-                nextAttack = Time.time + AttackSpeed;
+                nextAttack = Time.time + Stats.AttackSpeed;
 
                 ImitAttack(transform.position, true);
             }
@@ -154,16 +154,16 @@ public class Player : ASpecialCharacter
         switch (faceDirection)
         {
             case DIRECTIONS.NORTH:
-                attackObjPosition.y += AttackRange;
+                attackObjPosition.y += Stats.AttackRange;
                 break;
             case DIRECTIONS.EAST:
-                attackObjPosition.x += AttackRange;
+                attackObjPosition.x += Stats.AttackRange;
                 break;
             case DIRECTIONS.SOUTH:
-                attackObjPosition.y -= AttackRange;
+                attackObjPosition.y -= Stats.AttackRange;
                 break;
             case DIRECTIONS.WEST:
-                attackObjPosition.x -= AttackRange;
+                attackObjPosition.x -= Stats.AttackRange;
                 break;
             case DIRECTIONS.CENTER:
                 break;

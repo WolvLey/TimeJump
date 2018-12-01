@@ -4,10 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public enum DIRECTIONS
-{
-    NORTH, EAST, SOUTH, WEST, CENTER
-}
+
 
 public class GameController : MonoBehaviour
 {

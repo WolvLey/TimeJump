@@ -1,40 +1,42 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[System.Serializable]
+public struct Stats
+{
+    public string Name;
+    public float MaxHealth;
+    public float Health;
+    public float Speed;
+
+    public float AttackDamage;
+    public float AttackSpeed;
+    public float AttackRange;
+}
+
+public enum DIRECTIONS
+{
+    NORTH, EAST, SOUTH, WEST, CENTER
+}
+
 public abstract class ACharacter : MonoBehaviour
 {
     public GameObject[] attackObj;
 
-    #region Stats
-    [Header("Stats")]
-
     [SerializeField]
-    protected float Health;
-    [SerializeField]
-    protected float Speed;
-
-    public float AttackDamage;
-    [SerializeField]
-    protected float AttackSpeed;
-    [SerializeField]
-    protected float AttackRange;
-
-    protected string Name;
-    protected float MaxHealth;
+    protected Stats Stats;
 
     protected float InvulnableTime;
 
-    protected bool bMayAttack = true;
     protected bool IsDead = false;
     protected float nextAttack;
+
     protected bool IsInvulable = false;
     protected bool IsWalking = false;
-
 
     protected new Rigidbody2D rigidbody;
     protected GameController gameController;
     protected Animator anim;
-    #endregion
 
     protected DIRECTIONS faceDirection;
 
@@ -51,11 +53,9 @@ public abstract class ACharacter : MonoBehaviour
 
     public virtual void CalculateHealth(float damage)
     {
-        Health -= damage;
+        Stats.Health -= damage;
 
-        //Debug.Log(Health);
-
-        if (Health <= 0)
+        if (Stats.Health <= 0)
         {
             IsDead = true;
         }
@@ -75,16 +75,6 @@ public abstract class ACharacter : MonoBehaviour
         yield return new WaitForSeconds(InvulnableTime);
         IsInvulable = false;
     }
-
-    //protected IEnumerator WaitForAttack()
-    //{
-    //    bMayAttack = false;
-    //    yield return new WaitForSeconds(1 / AttackSpeed);
-    //    Destroy(attackInstance);
-    //    //anim.SetBool("IsAttacking", false);
-    //    bMayAttack = true;
-    //}
-
 
     protected abstract void Attack();
 }
